@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coding Quiz</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <nav>
+        <p id="nav-title">View Highscores</p>
+        <p id="timer">Timer: <span id="timer_value">0</span></p>
+    </nav>
+
+    <div id="start-page">
+        <header>
+            <h1 id>Coding Quiz Challenge</h1>
+        </header>
+
+        <p id="instructions">Try to answer the following code-related question within the time limit. Keep in mind that
+            incorrect answers will
+            penalize your score/time by 10 seconds!!!</p>
+
+        <button id="start-quiz" type="button">Start Quiz</button>
+    </div>
+
+    <div id="quiz-page">
+        <h1 id=question-text>question</h1>
+        <form id="choices">
+        </form>
+        <p id="judgement"></p>
+    </div>
+
+    <div id="finishing-page">
+        <h1 id="finishing-title">All Done!!</h1>
+        <form id="initial-form">
+                Enter Initials
+                <input type="text" id="initial">
+                <button id="submit-initial" type="button">Submit</button>
+        </form>
+    </div>
+
+    <div id="highscore-page">
+            <h1 id="finishing-title">Highscore</h1>
+            <div id="leader-board"></div>
+            <button type="button" id="go-back">Go Back</button>
+            <button type="button" id="clear-hscore">Clear Highscores</button>
+        </div>
+
+
+    <script src="questions.js"></script>
+</body>
+
+</html>

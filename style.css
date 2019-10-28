@@ -1,0 +1,90 @@
+
+
+nav{
+    background-color: purple;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    /* position: relative; */
+    
+}
+#timer,#nav-title{
+    /* width: 10%; */
+    color: purple;
+    background-color: white;
+    border-radius: 20px;
+    font-size: 20px;
+    margin: 10px;
+    margin-left: 20px;
+    /* position: absolute; */
+    padding: 5px 10px 5px 10px ;
+    top: 8px;
+    height: 20px;;
+    font-weight: bold;
+    
+}
+
+#timer{
+    /* width : 8%; */
+    right: 10px;
+}
+
+button{
+    /* width: 10%; */
+    display:block;
+    background-color: purple;
+    color: white;
+    padding: 10px 10px 10px 10px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+h1{
+    text-align: center;
+    margin-top: 63px;
+}
+
+#instructions{
+    text-align: center;
+    margin: 0 auto;
+    width: 30%;
+    font-size: 18px;
+}
+
+#start-quiz{
+    /* width: 10%; */
+    display:block;
+    margin: 0 auto; 
+    background-color: purple;
+    color: white;
+    padding: 10px 10px 10px 10px;
+    font-size: 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+
+#question-text{
+    text-align: left;
+}
+
+#quiz-page{
+    width:60%;
+    margin: auto;
+    margin-top: 63px;
+    display: none;
+}
+
+#finishing-page{
+    display: none;
+}
+
+#highscore-page{
+    display: none;
+}
+
+
+
+
+
+
