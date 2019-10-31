@@ -14,8 +14,10 @@ var btnGoBack = document.getElementById("go-back");
 var btnClearHscore = document.getElementById("clear-hscore");
 var leaders;
 var leaderBoardDiv = document.getElementById("leader-board");
-var curScore = -1;
+var goBackBtn = document.getElementById("go-back");
+var totalNumSec = 0;
 var curInitial = document.getElementById("initial");
+var timer;
 var questions = [
     {
       title: "Commonly used data types DO NOT include:",
@@ -29,11 +31,33 @@ var questions = [
     },
   ];
 var judgement = document.getElementById("judgement");
+var curScore;
+
+function renderTimer(){
+    timerValue.textContent = totalNumSec;
+    // console.log(totalNumSec);
+}
+
+function startTimer(){
+    timer = setInterval(function(){
+        if(totalNumSec > 0){
+            renderTimer();
+            totalNumSec--;
+        }
+        else{
+            clearInterval(timer);
+        }
+    }, 1000)
+}
 
 
 startQuiz.onclick = function(){
     startPage.setAttribute("style","display:none");
-    quizPage.setAttribute("style", "display:block");
+    quizPage.setAttribute("style", "display:flex");
+    curScore = questions.map(element => 0);
+    totalNumSec = questions.length * 30;
+    curQuestionIndex = 0;
+    startTimer(totalNumSec);
     renderQuizPage(questions[curQuestionIndex]);
 }
 
@@ -48,10 +72,12 @@ function renderQuizPage(question){
     }
 }
 
-function checkAnswer(question,inputAnswer){
-    console.log("indexof: "+question.choices.indexOf(inputAnswer));
-    if(question.choices.indexOf(inputAnswer)!== -1){
+function checkAnswer(index,question,inputAnswer){
+    console.log(inputAnswer);
+    console.log("indexof: "+question.choices[inputAnswer]);
+    if(question.choices[inputAnswer] === question.answer){
         judgement.innerHTML = "Correct!!";
+        curScore[index] = 10;
     }
     else{
         judgement.innerHTML = "Wrong!!";
@@ -68,7 +94,7 @@ choices.addEventListener("click",function(){
     event.preventDefault();
     user_choice = event.target;
     if (user_choice.matches("button")){
-        checkAnswer(questions[curQuestionIndex],user_choice.getAttribute("data-index"));
+        checkAnswer(curQuestionIndex,questions[curQuestionIndex],user_choice.getAttribute("data-index"));
         removeAllChild(choices);
         curQuestionIndex += 1;
         if(questions[curQuestionIndex]){
@@ -76,18 +102,22 @@ choices.addEventListener("click",function(){
         }
         else{
             quizPage.setAttribute("style", "display:none");
+            clearInterval(timer);
             finishingPage.setAttribute("style","display:block");
         }
     }
 })
 
+function updateLeaderBoard(){
+    leaders.sort(leaderSort).reverse();
+}
+
 function renderLeaderBoard(){
     var ObjLeaderBoard = localStorage.getItem("leaderBoard");
     ObjLeaderBoard ? leaders = JSON.parse(ObjLeaderBoard) : leaders=[];
-    
-    leaders.push({initial: curInitial,score: curScore})
-    console.log(leaders);
-    updateLeaderBoard(leaders);
+    finalScore = Math.round(curScore.reduce((total, score)=>total+score) * Math.log(totalNumSec));
+    leaders.push({initial: curInitial.value,score: finalScore})
+    updateLeaderBoard();
     
     //save to local storage
     localStorage.setItem("leaderBoard",JSON.stringify(leaders))
@@ -95,7 +125,7 @@ function renderLeaderBoard(){
     var list = document.createElement("ol");
     for(var i = 0; i < leaders.length;i++){
         var li = document.createElement("li");
-        li.innerHTML = i+1 + ".\t" + leaders[i];
+        li.innerHTML =  leaders[i].initial + "\t" + leaders[i].score;
         list.appendChild(li);
     }
     leaderBoardDiv.appendChild(list);
@@ -107,21 +137,21 @@ function leaderSort(a,b){
     return 0;
 }
 
-function updateLeaderBoard(leaders){
-    leaders.sort(leaderSort);
-}
-
 btnClearHscore.onclick = function(){
     localStorage.setItem("leaderBoard","");
-    renderLeaderBoard();
+    leaderBoardDiv.innerHTML = "";
 }
 
 submitInitial.onclick = function(){
     finishingPage.setAttribute("style","display:none");
     highscorePage.setAttribute("style","display:block");
-
     renderLeaderBoard();
 }
 
+goBackBtn.onclick = function(){
+    highscorePage.setAttribute("style","display:none");
+    startPage.setAttribute("style","display:block");
+    leaderBoardDiv.innerHTML = "";
+}
 
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Coding Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -29,10 +30,14 @@
     </div>
 
     <div id="quiz-page">
-        <h1 id=question-text>question</h1>
-        <form id="choices">
-        </form>
-        <p id="judgement"></p>
+        <div id="question-content">
+            <h1 id=question-text>question</h1>
+            <form id="choices"></form>
+            <p id="judgement"></p>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">Result</div>
+            </div>
     </div>
 
     <div id="finishing-page">

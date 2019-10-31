@@ -64,6 +64,7 @@ h1{
 }
 
 
+
 #question-text{
     text-align: left;
 }
@@ -73,7 +74,14 @@ h1{
     margin: auto;
     margin-top: 63px;
     display: none;
+    justify-content: space-around;;
 }
+
+
+#question-content{
+    width: 60%;
+}
+
 
 #finishing-page{
     display: none;
