@@ -1,6 +1,6 @@
 
 
-nav{
+#nav-bar{
     background-color: purple;
     height: 50px;
     display: flex;
@@ -70,7 +70,7 @@ h1{
 }
 
 #quiz-page{
-    width:60%;
+    width:80%;
     margin: auto;
     margin-top: 63px;
     display: none;
@@ -79,7 +79,7 @@ h1{
 
 
 #question-content{
-    width: 60%;
+    width: 80%;
 }
 
 

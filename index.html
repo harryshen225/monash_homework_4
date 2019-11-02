@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Coding Quiz</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-    <nav>
+    <div id="nav-bar">
         <p id="nav-title">View Highscores</p>
         <p id="timer">Timer: <span id="timer_value">0</span></p>
-    </nav>
+    </div>
 
     <div id="start-page">
         <header>
@@ -35,26 +35,23 @@
             <form id="choices"></form>
             <p id="judgement"></p>
         </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">Result</div>
-            </div>
     </div>
 
     <div id="finishing-page">
         <h1 id="finishing-title">All Done!!</h1>
         <form id="initial-form">
-                Enter Initials
-                <input type="text" id="initial">
-                <button id="submit-initial" type="button">Submit</button>
+            Enter Initials
+            <input type="text" id="initial">
+            <button id="submit-initial" type="button">Submit</button>
         </form>
     </div>
 
     <div id="highscore-page">
-            <h1 id="finishing-title">Highscore</h1>
-            <div id="leader-board"></div>
-            <button type="button" id="go-back">Go Back</button>
-            <button type="button" id="clear-hscore">Clear Highscores</button>
-        </div>
+        <h1 id="finishing-title">Highscore</h1>
+        <div id="leader-board"></div>
+        <button type="button" id="go-back">Go Back</button>
+        <button type="button" id="clear-hscore">Clear Highscores</button>
+    </div>
 
 
     <script src="questions.js"></script>

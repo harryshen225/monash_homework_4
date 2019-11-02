@@ -20,138 +20,165 @@ var curInitial = document.getElementById("initial");
 var timer;
 var questions = [
     {
-      title: "Commonly used data types DO NOT include:",
-      choices: ["strings", "booleans", "alerts", "numbers"],
-      answer: "alerts"
+        title: "Commonly used data types DO NOT include:",
+        choices: ["strings", "booleans", "alerts", "numbers"],
+        answer: "alerts"
     },
     {
-      title: "The condition in an if / else statement is enclosed within ____.",
-      choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-      answer: "parentheses"
+        title: "The condition in an if / else statement is enclosed within ____.",
+        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        answer: "parentheses"
     },
-  ];
+];
 var judgement = document.getElementById("judgement");
 var curScore;
 
-function renderTimer(){
+function renderTimer() {
     timerValue.textContent = totalNumSec;
     // console.log(totalNumSec);
 }
 
-function startTimer(){
-    timer = setInterval(function(){
-        if(totalNumSec > 0){
+function startTimer() {
+    timer = setInterval(function () {
+        if (totalNumSec > 0) {
             renderTimer();
             totalNumSec--;
         }
-        else{
+        else {
             clearInterval(timer);
         }
     }, 1000)
 }
 
 
-startQuiz.onclick = function(){
-    startPage.setAttribute("style","display:none");
+startQuiz.onclick = function () {
+    startPage.setAttribute("style", "display:none");
     quizPage.setAttribute("style", "display:flex");
     curScore = questions.map(element => 0);
     totalNumSec = questions.length * 30;
     curQuestionIndex = 0;
+    judgement.innerHTML = "";
     startTimer(totalNumSec);
     renderQuizPage(questions[curQuestionIndex]);
 }
 
-function renderQuizPage(question){
+function renderQuizPage(question) {
     questionText.textContent = question.title;
-    for(var i=0; i< question.choices.length;i++){
+    for (var i = 0; i < question.choices.length; i++) {
         var btn = document.createElement("button");
-        btn.setAttribute("data-index",i);
-        btn.innerHTML = i +  ".\t" + question.choices[i];
+        btn.setAttribute("data-index", i);
+        btn.innerHTML = i + ".\t" + question.choices[i];
         choices.appendChild(btn);
         choices.appendChild(document.createElement("br"));
     }
 }
 
-function checkAnswer(index,question,inputAnswer){
+function checkAnswer(index, question, inputAnswer) {
     console.log(inputAnswer);
-    console.log("indexof: "+question.choices[inputAnswer]);
-    if(question.choices[inputAnswer] === question.answer){
-        judgement.innerHTML = "Correct!!";
+    console.log("indexof: " + question.choices[inputAnswer]);
+    if (question.choices[inputAnswer] === question.answer) {
+        judgement.innerHTML = "Previous Question: Correct!!";
         curScore[index] = 10;
     }
-    else{
-        judgement.innerHTML = "Wrong!!";
+    else {
+        judgement.innerHTML = "Previous Question: Wrong!!";
+        totalNumSec -= 10;
     }
 }
 
-function removeAllChild(element){
-    while(element.firstChild){
+function removeAllChild(element) {
+    while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
 }
 
-choices.addEventListener("click",function(){
+choices.addEventListener("click", function () {
     event.preventDefault();
     user_choice = event.target;
-    if (user_choice.matches("button")){
-        checkAnswer(curQuestionIndex,questions[curQuestionIndex],user_choice.getAttribute("data-index"));
+    if (user_choice.matches("button")) {
+        checkAnswer(curQuestionIndex, questions[curQuestionIndex], user_choice.getAttribute("data-index"));
         removeAllChild(choices);
         curQuestionIndex += 1;
-        if(questions[curQuestionIndex]){
+        if (questions[curQuestionIndex]) {
             renderQuizPage(questions[curQuestionIndex]);
         }
-        else{
+        else {
             quizPage.setAttribute("style", "display:none");
             clearInterval(timer);
-            finishingPage.setAttribute("style","display:block");
+            finishingPage.setAttribute("style", "display:block");
         }
     }
 })
 
-function updateLeaderBoard(){
+function updateLeaderBoard() {
     leaders.sort(leaderSort).reverse();
 }
 
-function renderLeaderBoard(){
+function updateRenderLeaderBoard() {
     var ObjLeaderBoard = localStorage.getItem("leaderBoard");
-    ObjLeaderBoard ? leaders = JSON.parse(ObjLeaderBoard) : leaders=[];
-    finalScore = Math.round(curScore.reduce((total, score)=>total+score) * Math.log(totalNumSec));
-    leaders.push({initial: curInitial.value,score: finalScore})
+    ObjLeaderBoard ? leaders = JSON.parse(ObjLeaderBoard) : leaders = [];
+
+    finalScore = Math.round(curScore.reduce((total, score) => total + score) * Math.log(totalNumSec));
+    leaders.push({ initial: curInitial.value, score: finalScore })
     updateLeaderBoard();
-    
+
     //save to local storage
-    localStorage.setItem("leaderBoard",JSON.stringify(leaders))
+    localStorage.setItem("leaderBoard", JSON.stringify(leaders))
 
     var list = document.createElement("ol");
-    for(var i = 0; i < leaders.length;i++){
+    for (var i = 0; i < leaders.length; i++) {
         var li = document.createElement("li");
-        li.innerHTML =  leaders[i].initial + "\t" + leaders[i].score;
+        li.innerHTML = leaders[i].initial + "\t" + leaders[i].score;
         list.appendChild(li);
     }
     leaderBoardDiv.appendChild(list);
 }
 
-function leaderSort(a,b){
-    if(a.score > b.score) return 1;
-    if(a.score < b.score) return -1;
+function renderLeaderBoard() {
+    var ObjLeaderBoard = localStorage.getItem("leaderBoard");
+    var lead;
+    ObjLeaderBoard ? lead = JSON.parse(ObjLeaderBoard) : lead = [];
+    if (lead) {
+        var list = document.createElement("ol");
+        for (var i = 0; i < lead.length; i++) {
+            var li = document.createElement("li");
+            li.innerHTML = lead[i].initial + "\t" + lead[i].score;
+            list.appendChild(li);
+        }
+        leaderBoardDiv.appendChild(list);
+        console.log('run');
+    }
+
+}
+
+function leaderSort(a, b) {
+    if (a.score > b.score) return 1;
+    if (a.score < b.score) return -1;
     return 0;
 }
 
-btnClearHscore.onclick = function(){
-    localStorage.setItem("leaderBoard","");
+btnClearHscore.onclick = function () {
+    localStorage.setItem("leaderBoard", "");
     leaderBoardDiv.innerHTML = "";
 }
 
-submitInitial.onclick = function(){
-    finishingPage.setAttribute("style","display:none");
-    highscorePage.setAttribute("style","display:block");
+submitInitial.onclick = function () {
+    finishingPage.setAttribute("style", "display:none");
+    highscorePage.setAttribute("style", "display:block");
+    updateRenderLeaderBoard();
+}
+
+goBackBtn.onclick = function () {
+    highscorePage.setAttribute("style", "display:none");
+    startPage.setAttribute("style", "display:block");
+    leaderBoardDiv.innerHTML = "";
+}
+
+
+navTitle.onclick = function () {
+    startPage.setAttribute("style", "display:none");
+    highscorePage.setAttribute("style", "display:block");
+    leaderBoardDiv.innerHTML = "";
     renderLeaderBoard();
 }
-
-goBackBtn.onclick = function(){
-    highscorePage.setAttribute("style","display:none");
-    startPage.setAttribute("style","display:block");
-    leaderBoardDiv.innerHTML = "";
-}
-
 
